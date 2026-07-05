@@ -49,18 +49,22 @@ function Home() {
 
     return (
         <div className="home">
-            <form onSubmit={handleSearch} className="search-form">
-                <input
-                    type="text"
-                    placeholder="Search for movies"
-                    className="search-input"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button type="submit" className="search-button">
-                    Search
-                </button>
-            </form>
+            <section className="hero">
+                <h1 className="hero-title">Find your next favorite film</h1>
+                <p className="hero-subtitle">Search thousands of movies and build your collection.</p>
+                <form onSubmit={handleSearch} className="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for movies"
+                        className="search-input"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button type="submit" className="search-button">
+                        Search
+                    </button>
+                </form>
+            </section>
             {error && <div className="error-message">{error}</div>}
 
             {loading ? (

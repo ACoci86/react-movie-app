@@ -4,7 +4,10 @@ function NavBar() {
     return (
         <nav className="nav-bar">
             <div className="navbar-brand">
-                <Link to="/">Movie App</Link>
+                <Link to="/">
+                    <img src="/movie-app.png" alt="Movie App logo" className="navbar-logo" />
+                    Movie App
+                </Link>
             </div>
 
             <div className="navbar-links">
