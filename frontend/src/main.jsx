@@ -4,13 +4,16 @@ import { BrowserRouter } from "react-router-dom"
 import './index.css'
 import App from './App.jsx'
 import { MovieProvider } from './contexts/MovieContext.jsx'
+import { AuthProvider } from './contexts/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <MovieProvider>
-        <App />
-      </MovieProvider>
+      <AuthProvider>
+        <MovieProvider>
+          <App />
+        </MovieProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 )
