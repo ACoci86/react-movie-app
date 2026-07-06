@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
@@ -7,6 +8,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const { login } = useAuth();
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -23,25 +25,25 @@ function Login() {
     return (
         <div className="auth-page">
             <form className="auth-form" onSubmit={handleSubmit}>
-                <h2>Log in</h2>
+                <h2>{t("login")}</h2>
                 {error && <div className="error-message">{error}</div>}
                 <input
                     type="email"
-                    placeholder="Email"
+                    placeholder={t("email")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
                 <input
                     type="password"
-                    placeholder="Password"
+                    placeholder={t("password")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                <button type="submit">Log in</button>
+                <button type="submit">{t("login")}</button>
                 <p className="auth-switch">
-                    No account? <Link to="/register">Sign up</Link>
+                    {t("noAccount")} <Link to="/register">{t("signup")}</Link>
                 </p>
             </form>
         </div>

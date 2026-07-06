@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 
 function NavBar() {
     const { user, logout } = useAuth();
+    const { t, i18n } = useTranslation();
+
+    const switchLang = (lng) => i18n.changeLanguage(lng);
 
     return (
         <nav className="nav-bar">
@@ -15,29 +19,44 @@ function NavBar() {
 
             <div className="navbar-links">
                 <Link to="/" className="nav-link">
-                    Home
+                    {t("home")}
                 </Link>
 
                 {user ? (
                     <>
                         <Link to="/favorites" className="nav-link">
-                            Favorites
+                            {t("favorites")}
                         </Link>
                         <span className="nav-user">{user.email}</span>
                         <button className="nav-logout" onClick={logout}>
-                            Log out
+                            {t("logout")}
                         </button>
                     </>
                 ) : (
                     <>
                         <Link to="/login" className="nav-link">
-                            Log in
+                            {t("login")}
                         </Link>
                         <Link to="/register" className="nav-link">
-                            Sign up
+                            {t("signup")}
                         </Link>
                     </>
                 )}
+
+                <div className="lang-switch">
+                    <button
+                        className={i18n.language.startsWith("en") ? "active" : ""}
+                        onClick={() => switchLang("en")}
+                    >
+                        EN
+                    </button>
+                    <button
+                        className={i18n.language.startsWith("it") ? "active" : ""}
+                        onClick={() => switchLang("it")}
+                    >
+                        IT
+                    </button>
+                </div>
             </div>
         </nav>
     );

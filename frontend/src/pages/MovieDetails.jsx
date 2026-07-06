@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { getMovieDetails } from "../services/api";
 
 const IMG = "https://image.tmdb.org/t/p/w500";
@@ -7,6 +8,7 @@ const PROFILE_IMG = "https://image.tmdb.org/t/p/w185";
 
 function MovieDetails() {
     const { id } = useParams();
+    const { t, i18n } = useTranslation();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -15,20 +17,20 @@ function MovieDetails() {
         const load = async () => {
             setLoading(true);
             try {
-                const data = await getMovieDetails(id);
+                const data = await getMovieDetails(id, i18n.language);
                 setMovie(data);
                 setError("");
             } catch (err) {
                 console.log(err);
-                setError("Could not load this movie.");
+                setError(t("couldNotLoadMovie"));
             } finally {
                 setLoading(false);
             }
         };
         load();
-    }, [id]);
+    }, [id, i18n.language]);
 
-    if (loading) return <div className="loading">Loading...</div>;
+    if (loading) return <div className="loading">{t("loading")}</div>;
     if (error) return <div className="error-message">{error}</div>;
     if (!movie) return null;
 
@@ -36,7 +38,7 @@ function MovieDetails() {
 
     return (
         <div className="movie-details">
-            <Link to="/" className="back-link">&larr; Back</Link>
+            <Link to="/" className="back-link">&larr; {t("back")}</Link>
 
             <div className="details-top">
                 {movie.poster_path && (
@@ -51,7 +53,7 @@ function MovieDetails() {
                     <h1>{movie.title}</h1>
                     <div className="details-meta">
                         <span>{movie.release_date?.slice(0, 4)}</span>
-                        {movie.runtime ? <span>{movie.runtime} min</span> : null}
+                        {movie.runtime ? <span>{movie.runtime} {t("minutes")}</span> : null}
                         {movie.vote_average ? <span>★ {movie.vote_average.toFixed(1)}</span> : null}
                     </div>
 
@@ -65,7 +67,7 @@ function MovieDetails() {
                 </div>
             </div>
 
-            <h2 className="cast-heading">Cast</h2>
+            <h2 className="cast-heading">{t("cast")}</h2>
             <div className="cast-grid">
                 {cast.map((person) => (
                     <div className="cast-card" key={person.id}>

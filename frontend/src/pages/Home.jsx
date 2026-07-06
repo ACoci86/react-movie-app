@@ -1,9 +1,11 @@
 import MovieCard from "../components/MovieCard";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { searchMovies } from "../services/api";
 import { getPopularMovies } from "../services/api";
 
 function Home() {
+    const { t, i18n } = useTranslation();
     const [searchQuery, setSearchQuery] = useState("");
     const [movies, setMovies] = useState([]);
     const [error, setError] = useState("");
@@ -12,7 +14,7 @@ function Home() {
     useEffect(() => {
         const loadPopularMovies = async () => {
             try {
-                const popularMovies = await getPopularMovies();
+                const popularMovies = await getPopularMovies(i18n.language);
                 setMovies(popularMovies);
             }
             catch (err) {
@@ -25,7 +27,7 @@ function Home() {
         };
 
         loadPopularMovies()
-    }, []);
+    }, [i18n.language]);
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -34,7 +36,7 @@ function Home() {
 
         setLoading(true);
         try {
-            const searchResults = await searchMovies(searchQuery);
+            const searchResults = await searchMovies(searchQuery, i18n.language);
             setMovies(searchResults);
             setError("");
         }
@@ -50,25 +52,25 @@ function Home() {
     return (
         <div className="home">
             <section className="hero">
-                <h1 className="hero-title">Find your next favorite film</h1>
-                <p className="hero-subtitle">Search thousands of movies and build your collection.</p>
+                <h1 className="hero-title">{t("heroTitle")}</h1>
+                <p className="hero-subtitle">{t("heroSubtitle")}</p>
                 <form onSubmit={handleSearch} className="search-form">
                     <input
                         type="text"
-                        placeholder="Search for movies"
+                        placeholder={t("searchPlaceholder")}
                         className="search-input"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     <button type="submit" className="search-button">
-                        Search
+                        {t("search")}
                     </button>
                 </form>
             </section>
             {error && <div className="error-message">{error}</div>}
 
             {loading ? (
-                <div className="loading">Loading...</div>
+                <div className="loading">{t("loading")}</div>
             ) : (
                 <div className="movies-grid">
                     {movies.map((movie) => (
