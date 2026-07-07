@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getMovieDetails } from "../services/api";
 
@@ -8,6 +8,7 @@ const PROFILE_IMG = "https://image.tmdb.org/t/p/w185";
 
 function MovieDetails() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const { t, i18n } = useTranslation();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -59,7 +60,7 @@ function MovieDetails() {
 
                     <div className="details-genres">
                         {movie.genres?.map((g) => (
-                            <span className="genre-chip" key={g.id}>{g.name}</span>
+                            <span className="detail-genre" key={g.id}>{g.name}</span>
                         ))}
                     </div>
 
@@ -70,7 +71,11 @@ function MovieDetails() {
             <h2 className="cast-heading">{t("cast")}</h2>
             <div className="cast-grid">
                 {cast.map((person) => (
-                    <div className="cast-card" key={person.id}>
+                    <div
+                        className="cast-card"
+                        key={person.id}
+                        onClick={() => navigate(`/person/${person.id}`)}
+                    >
                         {person.profile_path ? (
                             <img
                                 className="cast-photo"

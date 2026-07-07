@@ -44,7 +44,12 @@ function MovieCard({ movie }) {
         </div>
         <div className="movie-info">
             <h3>{movie.title}</h3>
-            <p>{movie.release_date?.slice(0, 4)}</p>
+            <div className="movie-meta">
+                <span>{movie.release_date?.slice(0, 4)}</span>
+                {movie.vote_average ? (
+                    <span className="movie-rating">★ {movie.vote_average.toFixed(1)}</span>
+                ) : null}
+            </div>
         </div>
     </div>
 

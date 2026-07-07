@@ -34,11 +34,14 @@ function NavBar() {
                     </>
                 ) : (
                     <>
-                        <Link to="/login" className="nav-link">
+                        <a href="#how-it-works" className="nav-link">
+                            {t("navHowItWorks")}
+                        </a>
+                        <a href="#categories" className="nav-link">
+                            {t("navExplore")}
+                        </a>
+                        <Link to="/login" className="nav-cta">
                             {t("login")}
-                        </Link>
-                        <Link to="/register" className="nav-link">
-                            {t("signup")}
                         </Link>
                     </>
                 )}
